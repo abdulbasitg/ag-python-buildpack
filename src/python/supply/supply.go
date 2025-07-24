@@ -707,21 +707,16 @@ func (s *Supplier) RunPipUnvendored() error {
 	if err := writePyDistUtils(distUtils); err != nil {
 		return err
 	}
-
-	if err := s.runPipInstall(
-		"docling",
-		"--ignore-installed",
-		"--no-cache-dir",
-		"--exists-action=w",
-		"--src="+filepath.Join(s.Stager.DepDir(), "src"),
-		"--disable-pip-version-check",
-		"--no-warn-script-location",
-	); err != nil {
-		s.Log.Info("[PipInstallError]: %s", err)
-		return fmt.Errorf("could not run pip: %v", err)
+	
+	s.Log.Info("--------------------> DEBUG")
+	cmdDebug := exec.Command("which", "python")
+	outputDebug, errDebug :=cmdDebug.CombinedOutput()
+	if errDebug != nil {
+		s.Log.Info("DEBUG FAILED: \n %s", outputDebug)
+	} else {
+	s.Log.Info("--------------------> DEBUG")
 	}
 	
-	/*
 	if err := s.runPipInstall(
 		"-r", requirementsPath,
 		"--ignore-installed",
@@ -735,7 +730,6 @@ func (s *Supplier) RunPipUnvendored() error {
 		s.Log.Info("[PipInstallError]: %s", err)
 		return fmt.Errorf("could not run pip: %v", err)
 	}
-	*/
 	return s.Stager.LinkDirectoryInDepDir(filepath.Join(s.Stager.DepDir(), "python", "bin"), "bin")
 }
 

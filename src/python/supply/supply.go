@@ -389,8 +389,9 @@ func (s *Supplier) InstallDocling() error {
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		msg := fmt.Sprintf("docling libs installation failed due to: \n %s", output)
-		s.Log.Debug("[Docling Installation Error]: %s", err)
-		s.Log.Debug(msg)
+		s.Log.Info("docling libs installation failed due to: \n %s", output)
+		s.Log.Info("[Docling Installation Error]: %s", err)
+		s.Log.Info(msg)
 		return err
 	} else {
 		msg := fmt.Sprintf("\n %s", output)

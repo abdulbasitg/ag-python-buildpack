@@ -702,6 +702,7 @@ func (s *Supplier) RunPipUnvendored() error {
 		"--disable-pip-version-check",
 		"--no-warn-script-location",
 	); err != nil {
+		s.Log.Info("[PipInstallError]: %s", err)
 		return fmt.Errorf("could not run pip: %v", err)
 	}
 

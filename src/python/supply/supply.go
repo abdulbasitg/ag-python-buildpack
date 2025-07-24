@@ -116,12 +116,11 @@ func RunPython(s *Supplier) error {
 		s.Log.Error("Could not install waitress: %v", err)
 		return err
 	}
-	*/
 	if err := s.InstallDocling(); err != nil {
 		s.Log.Error("Could not install docling: %v", err)
 		return err
 	}
- 
+ 	*/
 	if err := s.HandleRequirementstxt(); err != nil {
 		s.Log.Error("Error checking requirements.txt: %v", err)
 		return err
@@ -710,6 +709,20 @@ func (s *Supplier) RunPipUnvendored() error {
 	}
 
 	if err := s.runPipInstall(
+		"docling",
+		"--ignore-installed",
+		"--no-cache-dir",
+		"--exists-action=w",
+		"--src="+filepath.Join(s.Stager.DepDir(), "src"),
+		"--disable-pip-version-check",
+		"--no-warn-script-location",
+	); err != nil {
+		s.Log.Info("[PipInstallError]: %s", err)
+		return fmt.Errorf("could not run pip: %v", err)
+	}
+	
+	/*
+	if err := s.runPipInstall(
 		"-r", requirementsPath,
 		"--ignore-installed",
 		"--no-cache-dir",
@@ -722,7 +735,7 @@ func (s *Supplier) RunPipUnvendored() error {
 		s.Log.Info("[PipInstallError]: %s", err)
 		return fmt.Errorf("could not run pip: %v", err)
 	}
-
+	*/
 	return s.Stager.LinkDirectoryInDepDir(filepath.Join(s.Stager.DepDir(), "python", "bin"), "bin")
 }
 

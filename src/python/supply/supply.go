@@ -363,21 +363,35 @@ func (s *Supplier) InstallPip() error {
 
 func (s *Supplier) InstallDocling() error {
 
-	s.Log.Info("------> Installing Docling Libraries")
+	s.Log.Info("------> Installing waitress Libraries")
 
 	cmd := exec.Command("python", "-m", "pip", "install", "waitress")
 	output, err := cmd.CombinedOutput()
-
 	if err != nil {
-		msg := fmt.Sprintf("Docling libs installation failed due to: \n %s", output)
+		msg := fmt.Sprintf("waitress libs installation failed due to: \n %s", output)
+		s.Log.Debug("[waitress Installation Error]: %s", err)
+		s.Log.Debug(msg)
+		return err
+	} else {
+		msg := fmt.Sprintf("\n %s", output)
+		s.Log.Info(msg)
+		s.Log.Info("------> waitress libs installed ")
+	}
+
+	s.Log.Info("------> Installing docling Libraries")
+
+	cmd := exec.Command("python", "-m", "pip", "install", "docling")
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		msg := fmt.Sprintf("docling libs installation failed due to: \n %s", output)
 		s.Log.Debug("[Docling Installation Error]: %s", err)
 		s.Log.Debug(msg)
 		return err
 	} else {
 		msg := fmt.Sprintf("\n %s", output)
 		s.Log.Info(msg)
-		s.Log.Info("------> Docling libs installed ")
-	}
+		s.Log.Info("------> docling libs installed ")
+	}	
 	return nil
 }
 

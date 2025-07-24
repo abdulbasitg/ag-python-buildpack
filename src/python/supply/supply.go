@@ -365,7 +365,7 @@ func (s *Supplier) InstallDocling() error {
 
 	s.Log.Info("------> Installing Docling Libraries")
 
-	cmd := exec.Command("python", "-m", "pip", "install", "docling")
+	cmd := exec.Command("python", "-m", "pip", "install", "waitress")
 	output, err := cmd.CombinedOutput()
 
 	if err != nil {

@@ -112,6 +112,11 @@ func RunPython(s *Supplier) error {
 		return err
 	}
 
+	if err := s.InstallDocling(); err != nil {
+		s.Log.Error("Could not install pipenv: %v", err)
+		return err
+	}
+
 	if err := s.HandleRequirementstxt(); err != nil {
 		s.Log.Error("Error checking requirements.txt: %v", err)
 		return err
@@ -354,6 +359,26 @@ func (s *Supplier) InstallPip() error {
 	}
 
 	return s.Stager.LinkDirectoryInDepDir(filepath.Join(s.Stager.DepDir(), "python", "bin"), "bin")
+}
+
+func (s *Supplier) InstallDocling() error {
+
+	s.Log.Info("------> Installing Docling Libraries")
+
+	cmd := exec.Command("python", "-m", "pip", "install", "docling")
+	output, err := cmd.CombinedOutput()
+
+	if err != nil {
+		msg := fmt.Sprintf("Docling libs installation failed due to: \n %s", output)
+		s.Log.Debug("[Docling Installation Error]: %s", err)
+		s.Log.Debug(msg)
+		return err
+	} else {
+		msg := fmt.Sprintf("\n %s", output)
+		s.Log.Info(msg)
+		s.Log.Info("------> Docling libs installed ")
+	}
+	return nil
 }
 
 func (s *Supplier) InstallPipEnv() error {

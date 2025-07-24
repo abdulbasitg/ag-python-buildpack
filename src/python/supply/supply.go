@@ -387,7 +387,9 @@ func (s *Supplier) InstallDocling() error {
 	cmd1 := exec.Command("rm", "-rf", "/var/lib/apt/lists/*");
 	cmd := exec.Command("python", "-m", "pip", "install", "docling", "--no-cache-dir")
 	cmd2 := exec.Command("rm", "-rf", "/var/lib/apt/lists/*");
+	output1, err1 := cmd1.CombinedOutput()
 	output, err := cmd.CombinedOutput()
+	output2, err2 := cmd2.CombinedOutput()
 	if err != nil {
 		msg := fmt.Sprintf("docling libs installation failed due to: \n %s", output)
 		s.Log.Info("docling libs installation failed due to: \n %s", output)

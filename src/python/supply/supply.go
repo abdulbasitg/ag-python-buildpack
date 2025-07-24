@@ -111,7 +111,7 @@ func RunPython(s *Supplier) error {
 		s.Log.Error("Could not install pipenv: %v", err)
 		return err
 	}
-
+	/*
 	if err := s.InstallWaitress(); err != nil {
 		s.Log.Error("Could not install waitress: %v", err)
 		return err
@@ -121,7 +121,7 @@ func RunPython(s *Supplier) error {
 		s.Log.Error("Could not install docling: %v", err)
 		return err
 	}
-
+	*/
 	if err := s.HandleRequirementstxt(); err != nil {
 		s.Log.Error("Error checking requirements.txt: %v", err)
 		return err
@@ -695,6 +695,8 @@ func (s *Supplier) RunPipUnvendored() error {
 	if err := s.runPipInstall(
 		"-r", requirementsPath,
 		"--ignore-installed",
+		"--no-cache-dir",
+		"--extra-index-url https://download.pytorch.org/whl/cpu",
 		"--exists-action=w",
 		"--src="+filepath.Join(s.Stager.DepDir(), "src"),
 		"--disable-pip-version-check",

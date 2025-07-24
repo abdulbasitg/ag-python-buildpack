@@ -387,9 +387,11 @@ func (s *Supplier) InstallDocling() error {
 	cmd1 := exec.Command("rm", "-rf", "/var/lib/apt/lists/*");
 	cmd := exec.Command("python", "-m", "pip", "install", "docling", "--no-cache-dir")
 	cmd2 := exec.Command("rm", "-rf", "/var/lib/apt/lists/*");
-	output1, err1 := cmd1.CombinedOutput()
+	output1, err1 :=cmd1.CombinedOutput()
+	if err1 != nil {
+		s.Log.Info("rm -rf cache failed due to: \n %s", output1)
+	}
 	output, err := cmd.CombinedOutput()
-	output2, err2 := cmd2.CombinedOutput()
 	if err != nil {
 		msg := fmt.Sprintf("docling libs installation failed due to: \n %s", output)
 		s.Log.Info("docling libs installation failed due to: \n %s", output)
@@ -401,6 +403,12 @@ func (s *Supplier) InstallDocling() error {
 		s.Log.Info(msg)
 		s.Log.Info("------> Docling libs installed ")
 	}	
+
+	output2, err2 := cmd2.CombinedOutput()
+	if err2 != nil {
+		s.Log.Info("rm -rf cache failed due to: \n %s", output2)
+	}
+	
 	return nil
 }
 

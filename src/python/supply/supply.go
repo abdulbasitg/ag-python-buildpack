@@ -696,7 +696,7 @@ func (s *Supplier) RunPipUnvendored() error {
 		"-r", requirementsPath,
 		"--ignore-installed",
 		"--no-cache-dir",
-		"--extra-index-url https://download.pytorch.org/whl/cpu",
+		//"--extra-index-url https://download.pytorch.org/whl/cpu",
 		"--exists-action=w",
 		"--src="+filepath.Join(s.Stager.DepDir(), "src"),
 		"--disable-pip-version-check",

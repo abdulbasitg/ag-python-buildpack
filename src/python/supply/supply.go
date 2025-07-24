@@ -116,12 +116,12 @@ func RunPython(s *Supplier) error {
 		s.Log.Error("Could not install waitress: %v", err)
 		return err
 	}
-	
+	*/
 	if err := s.InstallDocling(); err != nil {
 		s.Log.Error("Could not install docling: %v", err)
 		return err
 	}
-	*/
+ 
 	if err := s.HandleRequirementstxt(); err != nil {
 		s.Log.Error("Error checking requirements.txt: %v", err)
 		return err
@@ -384,8 +384,9 @@ func (s *Supplier) InstallWaitress() error {
 }
 func (s *Supplier) InstallDocling() error {
 	s.Log.Info("------> Installing docling Libraries")
-
-	cmd := exec.Command("python", "-m", "pip", "install", "docling")
+	cmd1 := exec.Command("rm", "-rf", "/var/lib/apt/lists/*");
+	cmd := exec.Command("python", "-m", "pip", "install", "docling", "--no-cache-dir")
+	cmd2 := exec.Command("rm", "-rf", "/var/lib/apt/lists/*");
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		msg := fmt.Sprintf("docling libs installation failed due to: \n %s", output)

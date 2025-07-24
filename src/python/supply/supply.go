@@ -112,8 +112,13 @@ func RunPython(s *Supplier) error {
 		return err
 	}
 
+	if err := s.InstallWaitress(); err != nil {
+		s.Log.Error("Could not install waitress: %v", err)
+		return err
+	}
+	
 	if err := s.InstallDocling(); err != nil {
-		s.Log.Error("Could not install pipenv: %v", err)
+		s.Log.Error("Could not install docling: %v", err)
 		return err
 	}
 
@@ -360,24 +365,24 @@ func (s *Supplier) InstallPip() error {
 
 	return s.Stager.LinkDirectoryInDepDir(filepath.Join(s.Stager.DepDir(), "python", "bin"), "bin")
 }
-
-func (s *Supplier) InstallDocling() error {
-
-	s.Log.Info("------> Installing waitress Libraries")
+func (s *Supplier) InstallWaitress() error {
+	s.Log.Info("------> Installing Waitress Libraries")
 
 	cmd := exec.Command("python", "-m", "pip", "install", "waitress")
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		msg := fmt.Sprintf("waitress libs installation failed due to: \n %s", output)
-		s.Log.Debug("[waitress Installation Error]: %s", err)
+		msg := fmt.Sprintf("Waitress libs installation failed due to: \n %s", output)
+		s.Log.Debug("[Waitress Installation Error]: %s", err)
 		s.Log.Debug(msg)
 		return err
 	} else {
 		msg := fmt.Sprintf("\n %s", output)
 		s.Log.Info(msg)
-		s.Log.Info("------> waitress libs installed ")
-	}
-
+		s.Log.Info("------> Waitress libs installed ")
+	}	
+	return nil
+}
+func (s *Supplier) InstallDocling() error {
 	s.Log.Info("------> Installing docling Libraries")
 
 	cmd := exec.Command("python", "-m", "pip", "install", "docling")
@@ -390,7 +395,7 @@ func (s *Supplier) InstallDocling() error {
 	} else {
 		msg := fmt.Sprintf("\n %s", output)
 		s.Log.Info(msg)
-		s.Log.Info("------> docling libs installed ")
+		s.Log.Info("------> Docling libs installed ")
 	}	
 	return nil
 }

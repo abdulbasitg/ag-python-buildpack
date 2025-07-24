@@ -714,7 +714,7 @@ func (s *Supplier) RunPipUnvendored() error {
 	if errDebug != nil {
 		s.Log.Info("DEBUG FAILED: \n %s", outputDebug)
 	} else {
-		s.Log.Info(outputDebug)		
+		s.Log.Info("DEBUG RESULT: \n %s", outputDebug)
 	s.Log.Info("--------------------> DEBUG")
 	}
 	
